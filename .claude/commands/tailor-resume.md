@@ -44,12 +44,12 @@ If an older note or rule conflicts with a newer statement, say so in the report,
 
 Read the JD's title and responsibilities section. Classify as one of:
 
-- **Product Management** (Sr. Product Manager / Director / VP Product Management, or equivalent) → tailor using the strategy-forward framing seen in the style-example docs.
-- **Product Development** → shift framing toward execution/delivery: roadmap-to-ship velocity, technical delivery, engineering partnership, release management, hands-on build cadence. Pull the same underlying facts from the core resume but foreground delivery-oriented framing over strategic/P&L framing.
+- **Software Development** (Software Engineer / SDE / Backend / Frontend / Full-Stack / Platform / Infrastructure Engineer, or equivalent) → tailor using engineering-forward framing: system design, architecture, scalability, code quality, shipping production software, engineering best practices and cross-team technical collaboration.
+- **Data Science / Machine Learning** (Data Scientist / ML Engineer / Applied Scientist / AI Engineer, or equivalent) → shift framing toward analytical/model-building work: data pipelines, experimentation and statistical rigor, model development and evaluation, ML infrastructure, and translating data into decisions or production ML systems. Pull the same underlying facts from the core resume but foreground data/modeling framing over general software-delivery framing.
 
-If the JD is ambiguous between the two, default to Product Management framing but note the ambiguity in your summary at the end.
+If the JD is ambiguous between the two, default to Software Development framing but note the ambiguity in your summary at the end.
 
-(This classification is illustrative of one common axis — Product Management vs. Product Development. If the user's background is in a different field entirely, replace this step's two buckets with whatever framing axis makes sense for their target roles, using the same logic: pick the framing that most closely matches the JD's emphasis.)
+(This classification is illustrative of one common axis — Software Development vs. Data Science/Machine Learning. If the user's background is in a different field entirely, replace this step's two buckets with whatever framing axis makes sense for their target roles, using the same logic: pick the framing that most closely matches the JD's emphasis.)
 
 ## 2. Extract keywords from the JD
 

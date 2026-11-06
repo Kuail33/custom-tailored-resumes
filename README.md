@@ -59,7 +59,7 @@ For each JD processed, three files land in `output/`:
 The Professional resume reuses the exact tailored content from the ATS resume. Nothing is redrafted. The two Professional files are **not ATS-checked**, on purpose: photos, positioned frames, and multi-column layouts break ATS parsers. Use them where a human reads the document directly, such as networking, emailing a hiring manager, a portal's cover-letter upload, or bringing a printed copy to an interview.
 
 Plus a summary in the chat covering:
-- Role bucket classification (e.g., Product Management vs. Product Development framing) and why
+- Role bucket classification (e.g., Software Development vs. Data Science/Machine Learning framing) and why
 - **Domain fit** — whether the JD's industry/domain is a direct match to your real background, or which adjacent domain was used to bridge the gap (the pipeline is instructed to never claim direct domain experience you don't have)
 - **Credentials in summary** — what the JD says about education and certifications, whether you meet it, and whether a degree or certification was mentioned in the Executive Profile (and what capability it supports) or left out (and why)
 - The final ATS composite score and keyword coverage
