@@ -57,7 +57,7 @@ FONT = "Calibri"
 # User-customizable via the content JSON's "colors" object (see reference/professional_schema.json).
 # "sidebar" fills the sidebar band and colors main-column headings/names; "accent" colors
 # sidebar headings, bullets, rules, and the thin edge stripe. build() sets PRIMARY/ACCENT from it.
-DEFAULT_COLORS = {"sidebar": "1B2A49", "accent": "C9A24B"}  # navy, muted gold
+DEFAULT_COLORS = {"sidebar": "1B2A49", "accent": "e4eeed"}  # navy, muted gold
 PRIMARY = DEFAULT_COLORS["sidebar"]
 ACCENT = DEFAULT_COLORS["accent"]
 SIDEBAR_TEXT = "FFFFFF"

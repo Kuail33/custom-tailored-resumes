@@ -29,3 +29,4 @@ reference/style-examples/*
 /jobs/applied/*
 !/jobs/applied/.gitkeep
 /previews/
+/preview_*/
