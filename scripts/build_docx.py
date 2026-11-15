@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 build_docx.py — Build ATS-safe resume and cover letter .docx files in a plain
-single-column style: single-size 9.5pt Calibri, bold for hierarchy
+single-column style: single-size 9.5pt Times New Roman, bold for hierarchy
 (name/section headers/company names/job titles), List Bullet style for bullets,
 US Letter page, narrow margins, no tables/textboxes/images/headers/footers.
 
@@ -13,7 +13,7 @@ from docx.shared import Pt, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from qa_check import enforce
 
-FONT_NAME = "Calibri"
+FONT_NAME = "Times New Roman"
 FONT_SIZE = Pt(9.5)
 
 

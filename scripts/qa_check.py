@@ -86,7 +86,7 @@ SALUTATION = re.compile(r"^\s*Dear\b")
 DEFAULT_KNOWLEDGE_LABELS = ("working knowledge", "AI working knowledge", "hands-on applied AI", "AI tools")
 DEFAULT_KNOWLEDGE_PHRASES = ("working knowledge", "hands-on applied AI", "AI tools")
 SECTION_HEADING = re.compile(
-    r"^\W*(education|certifications?|licenses?|technology|technical skills|skills|core (competencies|expertise)|languages|"
+    r"^\W*(education|certifications?|licenses?|technology|technical skills|skills|core (competencies|expertise|skills)|languages|"
     r"executive profile|professional summary|summary|profile|key results|professional experience|experience|contact)\W*$", re.I)
 HEDGE = re.compile(r"\b(would|could|need to|needs to|if|require[sd]?|requirements?|role|position|open to|even though|parallels?|similar to|transfers?|interest|applying|non-negotiable|seeking|eager|learn)\b", re.I)
 # Cover letters must never admit a gap/limitation — that analysis goes only in the report to the user.

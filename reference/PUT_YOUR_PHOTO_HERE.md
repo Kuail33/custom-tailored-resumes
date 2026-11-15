@@ -1,9 +1,4 @@
-# reference/photo.jpg (required — you supply this)
+# reference/photo.jpg (no longer used)
 
-Place your headshot in this folder as **`reference/photo.jpg`**. It is used by the two
-Professional outputs (`Professional_<Company>_<Date>.docx` and
-`Professional_CoverLetter_<Company>_<Date>.docx`).
-
-- JPEG, ideally portrait orientation, head and shoulders, face roughly centered.
-- The scripts auto-crop to a 5:6 portrait keeping the top of the image, so leave a little headroom.
-- `reference/photo.jpg` is listed in `.gitignore` so it is never committed by accident.
+The Professional resume and cover letter no longer render a headshot. The navy sidebar
+leads with your name instead. You do not need to supply `reference/photo.jpg`.

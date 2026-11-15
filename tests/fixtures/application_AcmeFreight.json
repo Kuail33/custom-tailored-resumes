@@ -5,9 +5,21 @@
   "identity": {
     "name": "Jordan Avery",
     "credentials": "MBA",
-    "contact": ["Springfield, ST", "555-0100", "jordan.avery@example.com", "linkedin.com/in/example"],
-    "education": [{"degree": "MBA", "school": "Example State University"}],
-    "certifications": ["Example Product Certificate"]
+    "contact": [
+      "Springfield, ST",
+      "555-0100",
+      "jordan.avery@example.com",
+      "linkedin.com/in/example"
+    ],
+    "education": [
+      {
+        "degree": "MBA",
+        "school": "Example State University"
+      }
+    ],
+    "certifications": [
+      "Example Product Certificate"
+    ]
   },
   "headline": "DIRECTOR OF PRODUCT | LOGISTICS PLATFORMS",
   "tagline": "Product leadership for shipper and carrier workflows",
@@ -15,7 +27,13 @@
     "Product leader for logistics and retail platforms, serving **40+** enterprise shippers at Northwind Logistics.",
     "Works from data: weekly SQL review of onboarding and operational metrics, turned into requirements that engineering teams deliver."
   ],
-  "core_expertise": ["Product Strategy & Roadmap", "Funnel Analysis", "SQL", "Requirements & Acceptance Criteria", "Operational Metrics"],
+  "core_expertise": [
+    "Product Strategy & Roadmap",
+    "Funnel Analysis",
+    "SQL",
+    "Requirements & Acceptance Criteria",
+    "Operational Metrics"
+  ],
   "experience": [
     {
       "company": "NORTHWIND LOGISTICS",
@@ -26,7 +44,8 @@
         "Ran weekly funnel analysis in SQL of carrier onboarding, from account creation through document upload to first booking.",
         "Wrote the requirements and acceptance criteria for a routing release, after which on-time delivery improved from **82% to 91%**.",
         "Scheduled weekly carrier reports in Airflow."
-      ]
+      ],
+      "location": "Springfield, ST"
     },
     {
       "company": "LUMEN RETAIL GROUP",
@@ -35,22 +54,47 @@
       "bullets": [
         "Owned the loyalty app roadmap, with **$4M** in spend.",
         "Presented quarterly pipeline reviews of the product roadmap to the leadership team."
-      ]
+      ],
+      "location": "Springfield, ST"
     }
   ],
   "technology": "SQL | Airflow",
-  "knowledge_lines": ["Working Knowledge: vector search, from personal projects"],
+  "knowledge_lines": [
+    "Working Knowledge: vector search, from personal projects"
+  ],
   "keywords": {
-    "must_have": ["funnel analysis", "SQL", "on-time delivery", "A/B testing", "sales management", "pipeline"],
-    "nice_to_have": ["Airflow"]
+    "must_have": [
+      "funnel analysis",
+      "SQL",
+      "on-time delivery",
+      "A/B testing",
+      "sales management",
+      "pipeline"
+    ],
+    "nice_to_have": [
+      "Airflow"
+    ]
   },
   "cover_letter": {
-    "recipient": ["Acme Freight", "Hiring Team"],
+    "recipient": [
+      "Acme Freight",
+      "Hiring Team"
+    ],
     "salutation": "Dear Hiring Manager,",
     "paragraphs": [
       "I am applying for the Director of Product role at Acme Freight.",
       "At Northwind Logistics I led the shipment-tracking portal for 40+ enterprise shippers and ran weekly funnel analysis in SQL of carrier onboarding.",
       "I would welcome a conversation about your roadmap."
     ]
-  }
+  },
+  "education_block": [
+    "**Example State University | MBA** | Springfield, ST",
+    "Relevant Coursework: Operations, Analytics"
+  ],
+  "tech_stacks": {
+    "Languages": "SQL",
+    "Frameworks & Libraries": "Airflow",
+    "Tools": "Jira, Looker"
+  },
+  "projects": []
 }

@@ -54,12 +54,6 @@ def build(content, out_path):
 
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
-        photo_buf, (pw, ph) = _portrait_crop(PHOTO)
-        photo_path = tmp / "photo.jpg"
-        photo_path.write_bytes(photo_buf.read())
-        c["photo"] = str(photo_path)
-        c["photo_aspect"] = pw / ph
-
         content_path = tmp / "content.json"
         content_path.write_text(json.dumps(c, indent=2, ensure_ascii=False), encoding="utf-8")
 

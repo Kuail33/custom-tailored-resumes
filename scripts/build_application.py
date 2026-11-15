@@ -40,7 +40,8 @@ import qa_check  # noqa: E402
 from build_cover_letter_professional import build as build_cover_letter  # noqa: E402
 from build_docx import build_resume  # noqa: E402
 
-REQUIRED = ("company", "date", "headline", "profile", "core_expertise", "experience", "keywords", "cover_letter")
+REQUIRED = ("company", "date", "headline", "profile", "core_expertise", "education_block",
+            "tech_stacks", "experience", "keywords", "cover_letter")
 
 
 def runs(text):
@@ -59,30 +60,41 @@ def identity_for(app):
     return ident
 
 
+def _strip_period(text):
+    """House style: no full stop at the end of a bullet, context line, or summary line."""
+    return re.sub(r"\.\s*$", "", text.strip())
+
+
 def ats_parts(app, ident):
-    """The ATS resume as (header_lines, blocks) for build_docx.build_resume."""
-    name = ident["name"].upper() + (f", {ident['credentials']}" if ident.get("credentials") else "")
-    contact = " | ".join(f"LinkedIn: {c}" if c.lower().startswith("linkedin.com") else c for c in ident["contact"])
-    header = [[(name, True)], [(contact, False)], [(app["headline"], True)]]
-    if app.get("tagline"):
-        header.append([(app["tagline"], False)])
-    blocks = [("blank", None), ("heading", "EXECUTIVE PROFILE")]
-    blocks += [("text", runs(p)) for p in app["profile"]]
-    blocks += [("blank", None), ("heading", "CORE COMPETENCIES"), ("text", " | ".join(app["core_expertise"])),
-               ("blank", None), ("heading", "PROFESSIONAL EXPERIENCE")]
+    """The ATS resume as (header_lines, blocks) for build_docx.build_resume.
+    Layout (the candidate's house style, see reference/style-guide.md):
+    name / contact / summary line, EDUCATION, TECH STACKS, EXPERIENCE, PROJECTS."""
+    name = ident["name"]
+    contact = " | ".join(ident["contact"])
+    header = [[(name, True)], [(contact, False)]]
+    header += [runs(_strip_period(p)) for p in app["profile"]]
+
+    blocks = [("blank", None), ("heading", "EDUCATION")]
+    blocks += [("text", runs(line)) for line in app["education_block"]]
+
+    blocks += [("blank", None), ("heading", "TECH STACKS")]
+    for label, items in app["tech_stacks"].items():
+        blocks.append(("text", [(f"{label}: ", True), (items, False)]))
+    blocks += [("text", k) for k in app.get("knowledge_lines", [])]
+
+    blocks += [("blank", None), ("heading", "EXPERIENCE")]
     for job in app["experience"]:
-        blocks += [("blank", None), ("heading", job["company"]), ("text", f"{job['title']} | {job['dates']}")]
-        blocks += [("bullet", runs(b)) for b in job["bullets"]]
-    education = ident.get("ats_education") or [f"{e['degree']}, {e['school']}" for e in ident["education"]]
-    blocks += [("blank", None), ("heading", "EDUCATION")] + [("bullet", e) for e in education]
-    certs = app.get("certifications", ident.get("certifications", []))
-    if certs:
-        blocks += [("blank", None), ("heading", "CERTIFICATIONS")] + [("bullet", c.replace(" — ", " | ")) for c in certs]
-    if app.get("technology") or app.get("knowledge_lines"):
-        blocks += [("blank", None), ("heading", "TECHNOLOGY")]
-        if app.get("technology"):
-            blocks.append(("text", app["technology"]))
-        blocks += [("text", k) for k in app.get("knowledge_lines", [])]
+        company_line = f"{job['company']} | {job['location']}" if job.get("location") else job["company"]
+        blocks += [("blank", None), ("heading", company_line), ("text", f"{job['title']} | {job['dates']}")]
+        if job.get("context"):
+            blocks.append(("text", runs(_strip_period(job["context"]))))
+        blocks += [("bullet", runs(_strip_period(b))) for b in job["bullets"]]
+
+    if app.get("projects"):
+        blocks += [("blank", None), ("heading", "PROJECTS")]
+        for proj in app["projects"]:
+            blocks += [("blank", None), ("heading", f"{proj['name']} | {proj.get('link', 'Github')}")]
+            blocks += [("bullet", runs(_strip_period(b))) for b in proj["bullets"]]
     return header, blocks
 
 
@@ -155,7 +167,16 @@ def main(argv):
 
     pro_content = {k: lc[k] for k in ("name", "credentials", "contact", "education", "certifications")}
     pro_content.update({"headline": app["headline"], "tagline": app.get("tagline", ""), "profile": app["profile"],
-                        "core_expertise": app["core_expertise"], "experience": app["experience"]})
+                        "core_expertise": app["core_expertise"],
+                        "experience": [
+                            {**job, "bullets": ([_strip_period(job["context"])] if job.get("context") else [])
+                             + [_strip_period(b) for b in job["bullets"]]}
+                            for job in app["experience"]
+                        ] + [
+                            {"company": p["name"], "title": "Project", "dates": "",
+                             "bullets": [_strip_period(b) for b in p["bullets"]]}
+                            for p in app.get("projects", [])
+                        ]})
     if app.get("colors"):
         pro_content["colors"] = app["colors"]
     (ROOT / f"professional_{company}.json").write_text(json.dumps(pro_content, indent=2, ensure_ascii=False), encoding="utf-8")

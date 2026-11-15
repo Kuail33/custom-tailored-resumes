@@ -14,13 +14,12 @@ You are producing three tailored documents for the user (a plain ATS-safe resume
 - `reference/core-resume.docx` — primary source of truth for all facts, dates, titles, metrics. **This file does not ship with this project — the user must supply their own.** If it's missing, stop and tell the user to add it before proceeding.
 - `reference/background-notes.md` — secondary source of truth, an optional extended fact bank (e.g. pulled from a LinkedIn export) that the user can supply. Contains real facts (named tools, compliance frameworks, certifications, board/leadership roles, role-level detail) that don't appear in the core resume but are still real and usable for adjacent-skill matching in step 3. Never invent experience, skills, tools, or numbers that aren't grounded in EITHER of these two files. If this file doesn't exist, proceed using `reference/core-resume.docx` alone and note in your final report that no extended background notes were supplied.
 - `reference/evidence_rules.json` — optional, user-owned evidence rules (shape: `reference/evidence_rules.example.json`, which describes a fictional candidate). It records what the user has confirmed: gaps, knowledge-only terms, terms confirmed for specific employers, links and claims they said must not be made. If it doesn't exist, the QA gate still checks voice and figures; create it the first time the user confirms something worth keeping (step 3b).
+- `reference/style-guide.md` — the user's voice and layout rules (section order, canonical blocks to copy verbatim, bullet shape, banned words, "no full stop at the end of a bullet"). Read it in full before drafting. It is not evidence and never adds a fact. When it conflicts with any generic drafting advice below (headline, Executive Profile, competencies, Key Results), the style guide wins.
 - `reference/style-examples/` — the user's own APPROVED STYLE PATTERN resumes (up to two files, any format the `docx` skill can read). These are examples of tone, structure, and framing the user wants matched — not sources of new facts, and never evidence. If this folder is empty, tell the user in your final report that no style examples were supplied and that you defaulted to a straightforward professional format. When style examples exist, match their approach:
-  - Headline/title line rewritten to match the target role
-  - Executive profile paragraph rewritten in the target role's language
-  - Competencies/Core Expertise section swapped to foreground JD-relevant terms
-  - Per-employer bullets reworded to emphasize the metric/angle most relevant to this JD (same underlying facts, different framing — e.g., a throughput improvement can be framed as "scaling" for a growth-focused JD or "platform reliability" for an operations-focused JD)
-  - Certifications and Technology sections reordered so the most JD-relevant items lead
-- `reference/photo.jpg` — the user's headshot, used by the two Professional outputs in step 8b. **Required; does not ship with this project.** If it's missing, stop and tell the user to add it (see `reference/PUT_YOUR_PHOTO_HERE.md`) before proceeding.
+  - Match the look only: section order, header layout, the one-line italic summary, the context sentence before each entry's bullets, first-person bullets with no trailing period, and the "Name | Github" project format
+  - Per-employer bullets reworded to emphasize the angle most relevant to this JD (same underlying facts, different framing)
+  - The rules for all of this are in `reference/style-guide.md`; the examples show what the rules look like on a page
+- `reference/photo.jpg` — **not used.** The Professional outputs no longer render a headshot; the navy sidebar leads with the candidate name. No photo file is needed.
 - Node.js + `npm install` — the Professional cover letter renders via `scripts/build_cover_letter.js` (docx-js). If `node_modules/` doesn't exist in the project root, run `npm install` once before step 8b.
 
 **Dollar-figure / metric phrasing convention:** If the user's `background-notes.md` or `core-resume.docx` defines an authoritative phrasing convention for budget/spend figures (e.g., always phrase as "$XMM in spend", not "annual business value"), follow it consistently across the resume and cover letter. Do not alter the underlying numbers when tailoring — only the phrasing may be adapted to fit sentence flow. If the user has flagged specific figures as corrected/authoritative (superseding older phrasings), always use the corrected version, even if an older phrasing resurfaces from a prior draft or output file.
@@ -44,12 +43,11 @@ If an older note or rule conflicts with a newer statement, say so in the report,
 
 Read the JD's title and responsibilities section. Classify as one of:
 
-- **Software Development** (Software Engineer / SDE / Backend / Frontend / Full-Stack / Platform / Infrastructure Engineer, or equivalent) → tailor using engineering-forward framing: system design, architecture, scalability, code quality, shipping production software, engineering best practices and cross-team technical collaboration.
-- **Data Science / Machine Learning** (Data Scientist / ML Engineer / Applied Scientist / AI Engineer, or equivalent) → shift framing toward analytical/model-building work: data pipelines, experimentation and statistical rigor, model development and evaluation, ML infrastructure, and translating data into decisions or production ML systems. Pull the same underlying facts from the core resume but foreground data/modeling framing over general software-delivery framing.
+- **Software Engineering** (Software Engineer / SDE / Backend / Frontend / Full-Stack / AI Engineer, or equivalent) → foreground Monet, Cookie Eater, Dipop, and the Power Packs frontend: shipped full-stack builds, API integration, backend structure, and code the user owns end to end.
+- **Data Science / Machine Learning** (Data Scientist / ML Engineer / Applied Scientist / Analytics Intern, or equivalent) → foreground MediMate and Power Packs: data preparation and leakage control, model training and evaluation, fairness auditing, and measurable outcomes on real multi-year data.
+- **Quantitative Research / Operations Research** (Quant Research / Quant Trading / Quant Analyst / OR Analyst, or equivalent) → foreground Origami research, Power Packs forecasting, and the math coursework: open-problem research, deriving constraints from theory, forecasting and optimization under real constraints, probability/statistics grounding, and the MAA EPaDel talk.
 
-If the JD is ambiguous between the two, default to Software Development framing but note the ambiguity in your summary at the end.
-
-(This classification is illustrative of one common axis — Software Development vs. Data Science/Machine Learning. If the user's background is in a different field entirely, replace this step's two buckets with whatever framing axis makes sense for their target roles, using the same logic: pick the framing that most closely matches the JD's emphasis.)
+If the JD is ambiguous between buckets, default to Data Science / Machine Learning framing but note the ambiguity in your summary at the end.
 
 ## 2. Extract keywords from the JD
 
@@ -101,54 +99,26 @@ When the user answers:
 
 Never edit the notes or the rules on inference. Once recorded, a confirmation is available to every later application; do not ask the user to establish it again.
 
-## 4. Domain framing (Executive Profile / summary)
+## 4. Domain framing (Summary line)
 
-This is separate from step 3 — step 3 matches individual skills/tools/keywords; this step governs how the **Executive Profile / summary section** handles industry/domain language specifically. It is a stricter version of the no-fabrication rule, applied to industry/domain claims:
+This is separate from step 3 — step 3 matches individual skills/tools/keywords; this step governs how the **Summary line** handles industry/domain language specifically. It is a stricter version of the no-fabrication rule, applied to industry/domain claims:
 
 - Identify the JD's specific industry/domain (e.g., EdTech, FinTech, PropTech, AdTech, healthcare).
 - Check the user's real background (`reference/core-resume.docx` + `reference/background-notes.md`) for direct experience in that exact domain.
-- **Direct domain experience exists** → name it normally in the Executive Profile, as usual.
-- **Direct domain experience does NOT exist** → do not state or imply direct experience in that domain, in the Executive Profile or anywhere else. Instead, bridge via the closest genuinely-true adjacent domain or business model from the user's real background (e.g., consumer mobile products, subscription/freemium business models, data-driven engagement products, B2B SaaS at scale) — using only domains/models the user has actually worked in. Never state or imply industry expertise the user doesn't have, even loosely or in passing.
+- **Direct domain experience exists** → name it normally in the Summary line, as usual.
+- **Direct domain experience does NOT exist** → do not state or imply direct experience in that domain, in the Summary line or anywhere else. Instead, bridge via the closest genuinely-true adjacent domain or business model from the user's real background (e.g., consumer mobile products, subscription/freemium business models, data-driven engagement products, B2B SaaS at scale) — using only domains/models the user has actually worked in. Never state or imply industry expertise the user doesn't have, even loosely or in passing.
 
 Carry the result of this step into step 9 (Report back) as the "Domain fit" line — required for every JD, every run.
 
-## 4a. Credentials in the Executive Profile / summary
+## 4a. Credentials in the Summary line
 
-This step governs one decision: whether a degree or certification is mentioned in the **Executive Profile / summary** of the two resumes (ATS and Professional). It does not govern cover-letter content, and it never changes the Education or Certifications sections.
-
-**Principle:** a degree or certification appears in the Executive Profile only when it materially adds value for this specific candidate and this specific target role. This applies to every credential of every level and type: bachelor's, master's, MBA, doctorate, professional certification, license, or any other. None of them belongs in the summary merely because the user has it.
-
-Evaluate each credential against the JD and the user's source files:
-
-- Does the JD require a degree or certification, prefer one, mention one as optional, or say nothing?
-- Does the user meet, exceed, or fall short of what the JD states?
-- Is the credential's field relevant to the role?
-- Does it demonstrate meaningful domain knowledge, technical or business capability, breadth, or differentiation?
-- Does mentioning it contribute something the user's experience does not already demonstrate more strongly?
-- Would the limited summary space be better used for accomplishments, scope, leadership, or outcomes?
-
-Decision rules:
-
-- Never include a credential simply because the user has it.
-- Never include a credential simply because the JD mentions education or certification.
-- **Meeting a requirement and deserving summary space are not the same thing.** Meeting a minimum education requirement, or holding a certification the JD requires, does not by itself make the credential valuable summary content.
-- **Preserve factual gaps.** If the user's credential is below what the JD requires (e.g., the JD requires a master's and the user holds a bachelor's), never frame the lower credential as though it satisfies the requirement. Report the shortfall as a genuine gap in step 9.
-- If the JD says no degree is required, do not automatically suppress education. A relevant degree may still be included when it independently strengthens the positioning.
-- If the JD states no education requirement at all, make the same value-based determination.
-- Do not inventory multiple degrees or certifications in the summary.
-- If a credential is included, connect it to the specific capability or differentiation it helps demonstrate for this role. Do not merely name it. Derive that connection from this JD and the user's real experience each time; do not reuse a fixed sentence across JDs.
-- Institution names generally belong in the Education section, not the summary, unless there is an exceptional, defensible, role-specific reason.
-- If no credential adds meaningful positioning value, omit credentials from the summary entirely.
-
-The shape to avoid is a standalone list ("Holds a [degree] in [field], a [second degree], and [certification]."). The shape to use, when a credential earns its place, is a sentence in which it supports a capability the JD prioritizes ("[Capability the role needs], grounded in a [degree] in [relevant field]."). These are shapes, not wording to copy.
-
-**Source files are facts, not a pattern.** The user's `reference/core-resume.docx` or style examples may themselves list credentials in the summary. Treat that as a source of facts about what the user holds, not as phrasing to carry into the tailored profile.
-
-Whatever this step decides, Education and Certifications stay complete and accurate in their own sections of both resumes. Carry the decision into step 9 as the "Credentials in summary" line.
+One rule: the degree name, school, GPA, and coursework stay in the EDUCATION block and never appear in the Summary line. The Summary line names skill areas only (see `reference/style-guide.md`, section 3). Report any JD education requirement the user falls short of as a gap in step 9; never reword around it. Carry the decision into step 9 as the "Credentials in summary" line.
 
 ## 5. Draft the tailored resume
 
-Using `reference/core-resume.docx` as the base and any supplied `reference/style-examples/` docs as the style pattern, write a new tailored resume. Follow the `docx` skill (`/mnt/skills/public/docx/SKILL.md`) for creation mechanics — build with docx-js, US Letter page size, no tables/text boxes/multi-column layouts, no header/footer content, standard fonts only (Calibri, Arial, Georgia, or Cambria). This is a hard requirement — the ATS format check in step 7 will fail the resume otherwise.
+Using `reference/core-resume.docx` as the base and any supplied `reference/style-examples/` docs as the style pattern, write a new tailored resume. Follow the `docx` skill (`/mnt/skills/public/docx/SKILL.md`) for creation mechanics — build with docx-js, US Letter page size, no tables/text boxes/multi-column layouts, no header/footer content, standard fonts only (Times New Roman is the default; Arial, Calibri, Georgia, or Cambria are also ATS-safe). This is a hard requirement — the ATS format check in step 7 will fail the resume otherwise.
+
+**Voice and layout.** Draft every bullet, context sentence, and summary line in the voice defined in `reference/style-guide.md`. Do not convert first-person bullets to verb-first telegraphic style. Do not end any bullet with a full stop. Use the section order and canonical blocks from the style guide; do not produce an Executive Profile, Core Competencies, or Key Results section.
 
 **One shared definition.** Define the application once and render all three documents from it, so they cannot drift apart. Write `application_<Company>.json` (worked synthetic example: `tests/fixtures/application_AcmeFreight.json`) holding the identity, headline, profile, competencies, experience bullets, certifications, keywords, and the cover letter, then run:
 
@@ -158,15 +128,17 @@ python3 scripts/build_application.py application_<Company>.json [--questions-ask
 
 It requires the evidence map (step 3a), stops while open questions are unasked (step 3b), runs the QA gate on the content before rendering, calls the three builders, runs the ATS check with role fit, and renders every page into a new folder. The individual builder commands in steps 7 and 8b still work on their own.
 
+The definition must include `education_block`, `tech_stacks` (three labeled lines), a `location` and `context` sentence per experience entry, and a `projects` list. Copy `education_block`, the `tech_stacks` labels, and the context sentences verbatim from `reference/style-guide.md` section 2; reorder items only.
+
 **Choose evidence by role relevance.** For each role, lead with the evidence that answers this JD's most important requirements, taken from the evidence map.
 
 **When the document is too long, cut in this order:** (1) shorten repetitive wording; (2) merge bullets that make the same point; (3) drop the competencies and bullets least relevant to this JD; (4) only last, remove a distinctive achievement, example or figure. Never drop a distinctive achievement to make room for a keyword. List every cut in the report.
 
-**Avoid cross-section repetition:** Several JD-relevant points — comfort with ambiguity/fast-moving environments is a common recurring one, but the same risk applies to any other point (e.g., cross-functional influence, data-driven decision-making) that naturally fits the Executive Profile, a Key Results bullet, and a per-role bullet — legitimately belong in more than one section. When a point needs to appear more than once in the same document, vary the phrasing each time; never reuse the same sentence or near-identical wording twice within a single document. Before finalizing, scan the full draft for repeated multi-word phrases across the Executive Profile, Key Results, Core Competencies, and per-role bullets, and reword every repeat so each instance reads distinctly.
+**Avoid cross-section repetition:** Several JD-relevant points — comfort with ambiguity/fast-moving environments is a common recurring one, but the same risk applies to any other point (e.g., cross-functional influence, data-driven decision-making) that naturally fits the Summary line, the context sentence of an entry, and a per-role bullet — legitimately belong in more than one section. When a point needs to appear more than once in the same document, vary the phrasing each time; never reuse the same sentence or near-identical wording twice within a single document. Before finalizing, scan the full draft for repeated multi-word phrases across the Summary line, context sentences, experience bullets, and project bullets, and reword every repeat so each instance reads distinctly.
 
 ## 6. Draft the cover letter
 
-Generate a fresh, professional cover letter (not reused from any fixed template) — proper business letter heading (the user's contact info, date, hiring company/manager if named in the JD, salutation), 3-4 paragraphs: opening hook tied to the specific role, 1-2 paragraphs connecting the user's real background to the JD's top priorities, closing with a call to action. This step drafts the letter **content** only (recipient, salutation, paragraphs, closing). It is not saved as its own plain `.docx` and is not ATS-checked. Step 8b renders it as the Professional cover letter. The domain-framing decision from step 4 applies here too — never claim or imply direct domain experience the Executive Profile doesn't claim.
+Generate a fresh, professional cover letter (not reused from any fixed template) — proper business letter heading (the user's contact info, date, hiring company/manager if named in the JD, salutation), 3-4 paragraphs: opening hook tied to the specific role, 1-2 paragraphs connecting the user's real background to the JD's top priorities, closing with a call to action. This step drafts the letter **content** only (recipient, salutation, paragraphs, closing). It is not saved as its own plain `.docx` and is not ATS-checked. Step 8b renders it as the Professional cover letter. The domain-framing decision from step 4 applies here too — never claim or imply direct domain experience the Summary line doesn't claim.
 
 **Strengths-forward only — never write gap language into the letter.** The letter must not contain any gap or limitation sentence: no "I don't have experience in X," "while I lack…," "I have not owned…," "to be candid about fit," "my experience is shorter than the N years listed," or a closing like "if that trade-off works for your team." When step 3 found a confirmed gap or left an open question:
 - Say nothing about the gap itself. Do not name the missing skill, tool, domain, or years requirement in a negative or hedged way.
@@ -201,8 +173,8 @@ Targets for the keyword score are a composite of 80 and must-have coverage of 90
 
 - Keep education and certification information accurately represented in its own resume sections.
 - Evaluate a JD education or certification requirement accurately during the step 2–3 fit and keyword analysis: establish from the source files whether the user meets, exceeds, or falls short of it. When the JD explicitly requires a certification the user holds, list it clearly in the Certifications section and recognize the requirement as met. An unmet requirement is a confirmed shortfall for step 9, not something to reword around.
-- Do not insert a degree or certification into the Executive Profile solely to increase keyword coverage or the ATS score.
-- Whether a credential belongs in the Executive Profile is decided independently, in step 4a, by whether it materially strengthens the user's positioning for this specific role.
+- Do not insert a degree or certification into the Summary line solely to increase keyword coverage or the ATS score.
+- Whether a credential belongs in the Summary line is decided independently, in step 4a, by whether it materially strengthens the user's positioning for this specific role.
 
 ## 8. Save outputs
 
@@ -216,10 +188,16 @@ Use today's date and the company name extracted from the JD (sanitize for filesy
 
 ## 8b. Build the Professional (visual) versions
 
-After the ATS resume has passed (or exhausted) the step 7 loop, build the two visual "Professional" documents: a two-column layout with a navy photo sidebar. **Do not redraft anything.** Both reuse the final, already-tailored content from steps 5–7:
+After the ATS resume has passed (or exhausted) the step 7 loop, build the two visual "Professional" documents: a two-column layout with a navy sidebar (no photo). **Do not redraft anything.** Both reuse the final, already-tailored content from steps 5–7:
 
-- **Identity/sidebar fields** (`name`, `credentials`, `contact`, `education`, `certifications`): pull these from `reference/core-resume.docx` (and `reference/background-notes.md` for certifications, if supplied). Use exactly what the user's source files say. Never invent or embellish. Omit `credentials`/`certifications` if the user has none; the scripts drop those sidebar sections when they're empty. These fields stay complete regardless of the step 4a decision: leaving a credential out of the Executive Profile never removes it from the sidebar or from the Education and Certifications sections.
-- **Professional resume content** (`headline`, `tagline`, `profile`, `core_expertise`, `experience`): copy the final headline, Executive Profile, Core Competencies, and per-role bullets from the ATS resume as finalized in step 7. If there are more than ~12 competencies, keep the most JD-relevant ~12 for the sidebar. `**bold**` markup may highlight metrics.
+- **Identity/sidebar fields** (`name`, `credentials`, `contact`, `education`, `certifications`): pull these from `reference/core-resume.docx` (and `reference/background-notes.md` for certifications, if supplied). Use exactly what the user's source files say. Never invent or embellish. Omit `credentials`/`certifications` if the user has none; the scripts drop those sidebar sections when they're empty. These fields stay complete regardless of the step 4a decision: leaving a credential out of the Summary line never removes it from the sidebar or from the Education and Certifications sections.
+- **Professional resume content** (`headline`, `tagline`, `profile`, `core_expertise`, `experience`): map from the ATS resume as finalized in step 7, with no redrafting:
+  - `headline` = the target role family for this JD, e.g. "Machine Learning Intern Candidate" (the only place a role tag appears; it is never added to the ATS resume)
+  - `tagline` = leave empty
+  - `profile` = the Summary line, as a one-item list
+  - `core_expertise` = the items from the three Tech Stacks lines, JD-relevant first, capped at ~12 for the sidebar
+  - `experience` = each entry's context sentence as its first bullet, followed by its bullets, verbatim; `build_application.py` appends the projects as further entries automatically
+  - `**bold**` markup may highlight metrics
 - **Professional cover letter content** (`date`, `recipient`, `salutation`, `paragraphs`, `closing`): copy verbatim from the step 6 cover letter draft. Use the same `core_expertise` list as the Professional resume.
 
 Write the content to `professional_<Company>.json` and `cover_professional_<Company>.json` in the project root (format: `reference/professional_schema.json`), then run:
@@ -249,13 +227,14 @@ If step 3 finds a problem, fix it and start this step again.
 For each JD processed, summarize:
 - Role bucket classification (and why)
 - **Domain fit** — always include this line, every JD, every run: either "Direct domain match" (name the domain) or the adjacent domain/business model used to bridge the gap (per step 4). Never omit this line, even when the gap is small.
-- **Credentials in summary** (step 4a) — always include this line: what the JD states about education and certifications (required, preferred, optional, not required, or not mentioned), whether the user meets, exceeds, or falls short of it, and the summary decision: either the credential included and the capability it supports, or that credentials were omitted from the summary and why.
+- **Credentials in summary** (step 4a) — always include this line: what the JD states about education, whether the user meets or falls short of it, and confirmation that credentials were kept out of the Summary line per step 4a.
 - **Evidence review**: the evidence map summary (counts by class), each supported paraphrase with the activity it rests on, and each undocumented term the gate allowed on the strength of a map row
 - **Keyword score**: final ATS composite + must-have/nice-to-have coverage, stated as keyword coverage, not as fit
 - **Role fit**, separately: requirement counts by class, and any matched keywords that are keyword-only or sit on an open question or confirmed gap
 - **Open questions** still unanswered, kept apart from confirmed gaps. Never report missing documentation as a gap
 - **Confirmed gaps**, with what was written in their place. Explain a score below target by its confirmed gaps and open questions
 - **Cuts** made for length, and any conflict found between older notes or rules and the user's current statements
+- **Style check**: confirm the section order matches `reference/style-guide.md`, that no bullet, context line, or summary line ends with a full stop, that bullets are first person, and list any sentence where a banned word or an em dash was removed
 - **Limits**: the gate and the map check are pattern and completeness checks; say what was verified by reading (step 8c) rather than by a script
 - **Final-page inspection** (step 8c): the preview folder, and confirmation that every page was looked at after the last content change
 - This report is the ONLY place gap language belongs; the cover letter never contains it. For each confirmed gap or open question, name the transferable strength the cover letter used in its place.
@@ -263,7 +242,7 @@ For each JD processed, summarize:
 
 ## 10. Keep the user's data out of version control
 
-Everything about the user is theirs and stays local: the core resume, background notes, evidence rules, identity, photo, style examples, job descriptions, keyword files, evidence maps, application definitions and outputs. `.gitignore` excludes all of them. This project ships only reusable logic, neutral instructions and a synthetic example (`tests/fixtures`). Never copy a real person's evidence, outputs, contact details or session identifiers into a tracked file. `python3 -m unittest discover -s tests` checks this for text files; it cannot read binary files or recognise a paraphrase, so read what you stage.
+Everything about the user is theirs and stays local: the core resume, background notes, style guide, evidence rules, identity, photo, style examples, job descriptions, keyword files, evidence maps, application definitions and outputs. `.gitignore` excludes all of them. This project ships only reusable logic, neutral instructions and a synthetic example (`tests/fixtures`). Never copy a real person's evidence, outputs, contact details or session identifiers into a tracked file. `python3 -m unittest discover -s tests` checks this for text files; it cannot read binary files or recognise a paraphrase, so read what you stage.
 
 ## 11. Optional reasoning frameworks
 

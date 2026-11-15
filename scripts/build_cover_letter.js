@@ -123,19 +123,19 @@ function band(hex, xIn, widthIn) {
 }
 
 function richRuns(text, { size, color, boldColor, bold = false }) {
-  if (bold) return [new TextRun({ text, bold: true, color, size, font: "Calibri" })];
+  if (bold) return [new TextRun({ text, bold: true, color, size, font: "Times New Roman" })];
   return text
     .split(/\*\*/)
     .filter((part) => part.length)
     .map((part, i) => new TextRun({
-      text: part, bold: i % 2 === 1, color: (i % 2 === 1 && boldColor) ? boldColor : color, size, font: "Calibri",
+      text: part, bold: i % 2 === 1, color: (i % 2 === 1 && boldColor) ? boldColor : color, size, font: "Times New Roman",
     }));
 }
 
 function sidebarHeading(text) {
   return new Paragraph({
     spacing: { before: 220, after: 100 },
-    children: [new TextRun({ text: text.toUpperCase(), bold: true, color: ACCENT, size: 17, font: "Calibri" })],
+    children: [new TextRun({ text: text.toUpperCase(), bold: true, color: ACCENT, size: 17, font: "Times New Roman" })],
     border: { bottom: { color: ACCENT, size: 4, style: BorderStyle.SINGLE, space: 4 } },
   });
 }
@@ -173,18 +173,18 @@ function buildSidebar(c) {
   children.push(new Paragraph({
     alignment: AlignmentType.CENTER,
     spacing: { after: 20 },
-    children: [new TextRun({ text: c.name.toUpperCase(), bold: true, color: SIDEBAR_TEXT, size: 23, font: "Calibri" })],
+    children: [new TextRun({ text: c.name.toUpperCase(), bold: true, color: SIDEBAR_TEXT, size: 23, font: "Times New Roman" })],
   }));
   children.push(new Paragraph({
     alignment: AlignmentType.CENTER,
     spacing: { after: 180 },
-    children: [new TextRun({ text: c.credentials || "", bold: true, color: ACCENT, size: 15, font: "Calibri" })],
+    children: [new TextRun({ text: c.credentials || "", bold: true, color: ACCENT, size: 15, font: "Times New Roman" })],
   }));
 
   children.push(sidebarHeading("Contact"));
   for (const line of c.contact) children.push(sidebarLine(line));
 
-  children.push(sidebarHeading("Core Expertise"));
+  children.push(sidebarHeading("Core Skills"));
   for (const item of c.core_expertise) children.push(sidebarLine(item, { bullet: true }));
 
   children.push(sidebarHeading("Education"));
@@ -205,29 +205,29 @@ function buildLetterBody(c) {
   const children = [];
   children.push(new Paragraph({
     spacing: { after: 260 },
-    children: [new TextRun({ text: c.date, color: MAIN_MUTED, size: 18, font: "Calibri" })],
+    children: [new TextRun({ text: c.date, color: MAIN_MUTED, size: 18, font: "Times New Roman" })],
   }));
   if (c.recipient && c.recipient.length) {
     for (const line of c.recipient) {
       children.push(new Paragraph({
         spacing: { after: 40 },
-        children: [new TextRun({ text: line, color: MAIN_TEXT, size: 19, font: "Calibri" })],
+        children: [new TextRun({ text: line, color: MAIN_TEXT, size: 19, font: "Times New Roman" })],
       }));
     }
     children.push(new Paragraph({ spacing: { after: 200 }, children: [new TextRun({ text: "", size: 19 })] }));
   }
   children.push(new Paragraph({
     spacing: { after: 220 },
-    children: [new TextRun({ text: c.salutation, bold: true, color: PRIMARY, size: 20, font: "Calibri" })],
+    children: [new TextRun({ text: c.salutation, bold: true, color: PRIMARY, size: 20, font: "Times New Roman" })],
   }));
   for (const p of c.paragraphs) children.push(letterPara(p));
   children.push(new Paragraph({
     spacing: { before: 160 },
-    children: [new TextRun({ text: c.closing, color: MAIN_TEXT, size: 19, font: "Calibri" })],
+    children: [new TextRun({ text: c.closing, color: MAIN_TEXT, size: 19, font: "Times New Roman" })],
   }));
   children.push(new Paragraph({
     spacing: { before: 220 },
-    children: [new TextRun({ text: c.closing_name, bold: true, color: PRIMARY, size: 19, font: "Calibri" })],
+    children: [new TextRun({ text: c.closing_name, bold: true, color: PRIMARY, size: 19, font: "Times New Roman" })],
   }));
   return children;
 }

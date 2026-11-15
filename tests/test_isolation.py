@@ -19,7 +19,7 @@ CREDIT_FILES = ("LICENSE", "README.md")
 BINARY = (".docx", ".pdf", ".pptx", ".jpg", ".jpeg", ".png", ".zip", ".ico")
 CANDIDATE_OWNED = [
     "output/Resume_X_2025-01-01.docx", "jobs/x.txt", "jobs/applied/x.txt", "keywords_X.json", "professional_X.json",
-    "cover_professional_X.json", "evidence_map_X.json", "application_X.json", "reference/background-notes.md",
+    "cover_professional_X.json", "evidence_map_X.json", "application_X.json", "reference/background-notes.md", "reference/style-guide.md",
     "reference/core-resume.docx", "reference/identity.json", "reference/evidence_rules.json", "reference/photo.jpg",
     "reference/style-examples/my-resume.docx",
 ]

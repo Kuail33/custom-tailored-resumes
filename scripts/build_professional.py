@@ -9,7 +9,7 @@ ats_check.py.
 Nothing about the candidate is hardcoded here. Name, credentials, contact lines,
 education, and certifications all come from the content JSON, which the
 /tailor-resume pipeline fills in from reference/core-resume.docx and
-reference/background-notes.md. The headshot is read from reference/photo.jpg
+reference/background-notes.md. The sidebar has no headshot (removed)
 (a required user-supplied input).
 
 Layout technique
@@ -53,7 +53,7 @@ PHOTO = ROOT / "reference" / "photo.jpg"
 IDENTITY_FIELDS = ("name", "contact", "education")
 REQUIRED_FIELDS = IDENTITY_FIELDS + ("headline", "profile", "core_expertise", "experience")
 
-FONT = "Calibri"
+FONT = "Times New Roman"
 # User-customizable via the content JSON's "colors" object (see reference/professional_schema.json).
 # "sidebar" fills the sidebar band and colors main-column headings/names; "accent" colors
 # sidebar headings, bullets, rules, and the thin edge stripe. build() sets PRIMARY/ACCENT from it.
@@ -81,8 +81,6 @@ def validate(content, required=REQUIRED_FIELDS):
     if missing:
         raise ValueError(f"content is missing required field(s): {', '.join(missing)} "
                          "(pull these from reference/core-resume.docx / background-notes.md)")
-    if not PHOTO.exists():
-        raise FileNotFoundError(f"photo not found at {PHOTO} — add your headshot as reference/photo.jpg")
 
 
 def resolve_colors(content):
@@ -284,12 +282,6 @@ def build_sidebar_page1(d, c, include_edu_certs):
     """Page-1 sidebar (body frame): photo, name, contact, core expertise.
     When the resume is a single page, education and certifications follow here too."""
     y = SIDEBAR_TOP
-    buf, (pw, ph) = _portrait_crop(PHOTO)
-    width_in = SIDEBAR_W - 2 * SIDEBAR_PAD
-    p = _sb_para(d, y)
-    _fmt(p, after=7)
-    p.add_run().add_picture(buf, width=Inches(width_in), height=Inches(width_in * ph / pw))
-
     p = _sb_para(d, y)
     _fmt(p, after=0, line=0.95)
     _style_run(p.add_run(c["name"].upper()), 19, bold=True, color=SIDEBAR_TEXT, spacing=0.5)
@@ -302,7 +294,7 @@ def build_sidebar_page1(d, c, include_edu_certs):
     for line in c["contact"]:
         _sb_line(d, y, line, size=9, color=SIDEBAR_TEXT)
 
-    _sb_heading(d, y, "Core Expertise")
+    _sb_heading(d, y, "Core Skills")
     for item in c["core_expertise"]:
         _sb_line(d, y, item, size=9, bullet=True, after=2)
 
@@ -338,7 +330,7 @@ def build_main(d, c):
         _fmt(p, after=2, keep_next=True)
         _style_run(p.add_run(c["tagline"]), 9.5, italic=True, color=MAIN_MUTED)
 
-    _main_heading(d, "Executive Profile")
+    _main_heading(d, "Summary")
     for para in c["profile"]:
         p = d.add_paragraph()
         _fmt(p, after=4, line=1.05)
