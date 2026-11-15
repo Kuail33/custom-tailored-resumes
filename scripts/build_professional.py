@@ -303,13 +303,48 @@ def build_sidebar_page1(d, c, include_edu_certs):
         _sb_certifications(d, y, c)
 
 
+_TEXTBOX_XML = (
+    '<w:r xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" '
+    'xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" '
+    'xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" '
+    'xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape">'
+    '<w:drawing><wp:anchor distT="0" distB="0" distL="0" distR="0" simplePos="0" relativeHeight="251660000" '
+    'behindDoc="0" locked="1" layoutInCell="1" allowOverlap="1">'
+    '<wp:simplePos x="0" y="0"/>'
+    '<wp:positionH relativeFrom="page"><wp:posOffset>{x}</wp:posOffset></wp:positionH>'
+    '<wp:positionV relativeFrom="page"><wp:posOffset>{y}</wp:posOffset></wp:positionV>'
+    '<wp:extent cx="{cx}" cy="{cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:wrapNone/>'
+    '<wp:docPr id="{id}" name="Sidebar page 2"/><wp:cNvGraphicFramePr/>'
+    '<a:graphic><a:graphicData uri="http://schemas.microsoft.com/office/word/2010/wordprocessingShape">'
+    '<wps:wsp><wps:cNvSpPr txBox="1"/>'
+    '<wps:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="{cx}" cy="{cy}"/></a:xfrm>'
+    '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/><a:ln><a:noFill/></a:ln></wps:spPr>'
+    '<wps:txbx><w:txbxContent/></wps:txbx>'
+    '<wps:bodyPr rot="0" vert="horz" wrap="square" lIns="0" tIns="0" rIns="0" bIns="0" anchor="t">'
+    '<a:noAutofit/></wps:bodyPr></wps:wsp></a:graphicData></a:graphic></wp:anchor></w:drawing></w:r>'
+)
+
+
 def build_sidebar_page2(header, c):
     """Page-2 sidebar: education, then certifications. Lives in the header used for
-    pages after the first (different-first-page header), pinned to the same left column,
-    because Word frames never flow onto the next page."""
-    y = SIDEBAR_TOP_P2
-    _sb_education(header, y, c, first=True)
-    _sb_certifications(header, y, c)
+    pages after the first (different-first-page header), inside a page-anchored text box
+    over the navy band. A text box rather than paragraph frames: renderers such as
+    LibreOffice ignore frame positions inside a header and drop the text into the main column."""
+    before = len(header.paragraphs)
+    _sb_education(header, SIDEBAR_TOP_P2, c, first=True)
+    _sb_certifications(header, SIDEBAR_TOP_P2, c)
+    paras = [p._p for p in header.paragraphs[before:]]
+    emu = 914400
+    run = etree.fromstring(_TEXTBOX_XML.format(
+        x=int(SIDEBAR_PAD * emu), y=int(SIDEBAR_TOP_P2 * emu), id=9001,
+        cx=int((SIDEBAR_W - 2 * SIDEBAR_PAD) * emu), cy=int((PAGE_H - SIDEBAR_TOP_P2 - 0.5) * emu)))
+    content = run.find(".//" + qn("w:txbxContent"))
+    for p in paras:
+        fp = p.find(qn("w:pPr") + "/" + qn("w:framePr"))
+        if fp is not None:
+            fp.getparent().remove(fp)
+        content.append(p)  # moves the paragraph out of the header body into the text box
+    header.paragraphs[0]._p.append(run)
 
 
 # ---------- main column ----------

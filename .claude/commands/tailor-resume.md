@@ -7,7 +7,8 @@ description: Generate an ATS-optimized tailored resume, plus visual Professional
 You are producing three tailored documents for the user (a plain ATS-safe resume, a visual "Professional" resume, and a matching Professional cover letter) for the job description provided in `$ARGUMENTS`. If no argument was given, check `jobs/` for `.txt`/`.md` files first:
 
 - **No files in `jobs/`** → ask the user to paste the JD directly.
-- **One or more files in `jobs/`** → this is a batch run. For EACH file found, execute steps 1 through 9 below (including 3a, 3b and 8c) yourself, in this same session, one JD at a time, in a loop. Do NOT invoke `/tailor-resume` again to process the next file — slash commands can only be typed by the user, not called by you as a sub-routine. You already have the full pipeline instructions below; just repeat them inline for each file until all are processed, then give one consolidated report at the end covering every JD.
+- **One or more files in `jobs/`** → this is a batch run. For EACH file found, execute steps 1 through 9 below (including 3a, 3b and 8c) yourself, in this same session, one JD at a time, in a loop. Do NOT invoke `/tailor-resume` again to 
+process the next file — slash commands can only be typed by the user, not called by you as a sub-routine. You already have the full pipeline instructions below; just repeat them inline for each file until all are processed, then give one consolidated report at the end covering every JD.
 
 ## 0. Inputs you must read first
 
